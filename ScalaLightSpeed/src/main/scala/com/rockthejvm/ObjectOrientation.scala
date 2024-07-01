@@ -265,5 +265,7 @@ object ObjectOrientation extends App{
   // TODO: Look into this a bit more its such as use cases to get a better understanding of the whole picture
       // my main question is that in scala do we need to create the list class or can we import collections like java
       // question when you print first you get 1 but when you print rest you get List(2,3)
+      
+      // it is because scala lists are like linked lists where the head will give you the first element and the tail will retrieve everything else
 
 }

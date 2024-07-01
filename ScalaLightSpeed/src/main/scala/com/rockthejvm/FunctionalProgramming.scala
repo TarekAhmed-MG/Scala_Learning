@@ -4,6 +4,7 @@ object FunctionalProgramming extends App{
   /*
   * Scala is Object Oriented
   * By having an apply method you can invoke objects as a function
+  * functions can be declared to a val or passed to another function whereas methods are defined using def and dont get passed around
   * */
 
   class Person(name: String){
