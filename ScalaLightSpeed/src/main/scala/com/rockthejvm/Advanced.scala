@@ -94,7 +94,7 @@ object Advanced extends App{
   implicit class MyRichInteger(n:Int){
     def isEven() = n % 2 == 0
   }
-
+  
   println(23.isEven()) // So this looks for the suitable wrapper where the compiler does MyRichInteger(23).isEven()
   // use this with care can cause a lot of issues
 }
