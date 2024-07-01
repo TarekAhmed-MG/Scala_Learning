@@ -81,7 +81,6 @@ object contextualAbstractionsScalaThreeOnly {
 
   val theSum_v2 = aList.combineAllValues // now it shows up as if its always apart of the list collection.
 
-
   def main(args: Array[String]): Unit = {
     println(anOrderedList)
   }
