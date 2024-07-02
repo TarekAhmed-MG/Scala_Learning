@@ -6,6 +6,7 @@ class GuessWho {
    * need a Map for players which holds all the characters names and their state - being active and inactive
    * need a filter to filter though characters traits and makes everything else inactive
    * a method for guess - where if a player guesses a character then they will win
+   * need a game state which has an up to date representation of all active and inactive characters
    */
 
   def guess(guess:String, character: GameCharacter) = {
@@ -13,6 +14,8 @@ class GuessWho {
     val characterGuess = if guess.toLowerCase.equals(character.name.toLowerCase) then true else false
     characterGuess
   }
+
+
 
 
 
