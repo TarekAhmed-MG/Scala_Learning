@@ -1,4 +1,5 @@
 package finalpractical
+import scala.util.Random
 
 case class GuessWho(name: String) {
   /**
@@ -9,15 +10,23 @@ case class GuessWho(name: String) {
    * need a game state which has an up to date representation of all active and inactive characters
    */
 
-  val tarek = GameCharacter("tarek","male","black","brown","beard","baseball cap")
-  val vito =  GameCharacter("vito","male","black","white","none","fedora")
-  val sonny = GameCharacter("sonny","male","brown","white","none","baseball cap")
-  val fredo = GameCharacter("fredo","male","black","white","none","baseball cap")
-  val michael = GameCharacter("michael","male","black","white","none","baseball cap")
-  val connie = GameCharacter("connie","female","brown","white","none","baseball cap")
-  val kay =  GameCharacter("kay","female","black","white","none","white hat")
+  val tarek: GameCharacter = GameCharacter("tarek","male","black","brown","beard","baseball cap")
+  val vito: GameCharacter =  GameCharacter("vito","male","black","white","none","fedora")
+  val sonny: GameCharacter = GameCharacter("sonny","male","brown","white","none","baseball cap")
+  val fredo: GameCharacter = GameCharacter("fredo","male","black","white","none","baseball cap")
+  val michael: GameCharacter = GameCharacter("michael","male","black","white","none","baseball cap")
+  val connie: GameCharacter = GameCharacter("connie","female","brown","white","none","baseball cap")
+  val kay: GameCharacter =  GameCharacter("kay","female","black","white","none","white hat")
 
-  val people = List(tarek,vito,sonny,fredo,michael,connie,kay)
+  val people: List[GameCharacter] = List(tarek,vito,sonny,fredo,michael,connie,kay)
+
+  def chooseCharacter(characterList: List[GameCharacter]): String = {
+    characterList(Random.between(0,characterList.size-1)).name
+  }
+
+  def printCurrentCharacters(characterList: List[GameCharacter]): Unit = {
+    characterList.foreach(character => println(character.name))
+  }
 
   def guess(guess: String, character: GameCharacter) = {
     //take the guess and character name put them to lower then check if they are the same, if they are return true otherwise return false
@@ -26,7 +35,7 @@ case class GuessWho(name: String) {
     characterGuess
   }
 
-  def question(characterType: CharacterAttribute.Value, question: String):List[GameCharacter] = {
+  def question(charcterList: List[GameCharacter], characterType: CharacterAttribute.Value, question: String):List[GameCharacter] = {
 
     // this is a java way of doing it when you have if elses try stick to pattern matching instead
     /*
@@ -41,12 +50,12 @@ case class GuessWho(name: String) {
     // instead of if else you can use pattern matching => match case
 
     val update = characterType.toString.toLowerCase match {
-      case "gender" => people.filter(x => question.equals(x.gender))
-      case "hair" => people.filter(x => question.equals(x.hair))
-      case "skincolour" => people.filter(x => question.equals(x.skinColour))
-      case "beard" => people.filter(x => question.equals(x.beard))
-      case "headwear" => people.filter(x => question.equals(x.headwear))
-      case _ => people
+      case "gender" => charcterList.filter(x => question.equals(x.gender))
+      case "hair" => charcterList.filter(x => question.equals(x.hair))
+      case "skincolour" => charcterList.filter(x => question.equals(x.skinColour))
+      case "beard" => charcterList.filter(x => question.equals(x.beard))
+      case "headwear" => charcterList.filter(x => question.equals(x.headwear))
+      case _ => charcterList
     }
     update
   }
