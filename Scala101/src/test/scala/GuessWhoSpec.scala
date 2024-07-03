@@ -4,25 +4,35 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class GuessWhoSpec extends AnyFlatSpec{
 
-  val tarek = new GameCharacter("tarek","male","black","brown",true,"baseball cap")
-  val vito = new GameCharacter("vito","male","black","white",true,"baseball cap")
-  val sonny = new GameCharacter("sonny","male","brown","white",true,"baseball cap")
-  val fredo = new GameCharacter("fredo","male","black","white",true,"baseball cap")
-  val michael = new GameCharacter("michael","male","black","white",true,"baseball cap")
-  val connie = new GameCharacter("connie","female","brown","white",false,"baseball cap")
-  val kay = new GameCharacter("kay","female","black","white",false,"white hat")
+  var guessWhoGame: GuessWho = GuessWho("game 1")
 
-
-  var guessWhoGame = new GuessWho()
 
   "tareks name" should "Match" in {
-    assert(guessWhoGame.guess("tarek", tarek) === true)
+    assert(guessWhoGame.guess("tarek", guessWhoGame.tarek) === true)
   }
 
   "johns name" should "not Match" in {
-    assert(guessWhoGame.guess("john", tarek) === false)
+    assert(guessWhoGame.guess("john", guessWhoGame.tarek) === false)
   }
 
+  "if female" should "display all female characters" in {
+    assert(guessWhoGame.question(CharacterAttribute.gender,"female") === List(guessWhoGame.connie,guessWhoGame.kay))
+  }
 
+  "if black" should "display all characters that have black hair" in {
+    assert(guessWhoGame.question(CharacterAttribute.hair, "black") === List(guessWhoGame.tarek,guessWhoGame.vito,guessWhoGame.fredo,guessWhoGame.michael, guessWhoGame.kay))
+  }
+
+  "if brown" should "display all characters that have skin colour brown" in {
+    assert(guessWhoGame.question(CharacterAttribute.skinColour, "brown") === List(guessWhoGame.tarek))
+  }
+
+  "if beard" should "display all characters with beards" in {
+    assert(guessWhoGame.question(CharacterAttribute.beard, "beard") === List(guessWhoGame.tarek))
+  }
+
+  "if fedora" should "display all characters that have fedora" in {
+    assert(guessWhoGame.question(CharacterAttribute.headwear, "fedora") === List(guessWhoGame.vito))
+  }
 
 }
