@@ -2,8 +2,8 @@ package com.rockthejvm
 
 object contextualAbstractionsScalaThreeOnly {
 
-  /*
-  * 1 - context parameters/arguments
+  /**
+  * 1 - Context Parameters/arguments
   * */
 
   val aList = List(2,1,3,4)
@@ -19,7 +19,9 @@ object contextualAbstractionsScalaThreeOnly {
 
   // analogous to an implicit val - the sorted value takes an implicit value of Ordering B
 
-  //Combinator
+  /**
+   * Combinator
+   */
 
   trait Combinator[A]{ // mathematically its called a monoid
     def combine(x:A, y:A) : A
@@ -57,9 +59,9 @@ object contextualAbstractionsScalaThreeOnly {
     - type level programming
    */
 
-  /*
-    2 - extension methods
-    you can add to a method after its been defined
+  /**
+    2 - Extension Methods
+    - you can add to a method after its been defined
    */
 
   case class Person(name:String){

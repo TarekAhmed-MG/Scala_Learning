@@ -2,7 +2,9 @@ package com.rockthejvm
 
 object PatternMatching extends App{
 
-  // ToDo: switch expression
+  /**
+   * Switch Expression
+   */
 
   val anInteger = 55
   // you can match this 55 to a number of cases without using the if-else case
@@ -23,21 +25,27 @@ object PatternMatching extends App{
   val bob = Person("Bob", 43) // dont have to instantiante with new as there is a companion object with an apply method
 
   val personGreeting = bob match {
-    case Person(n, a) => s"Hi, my name is $n snd i am $a years old." // its now matching bob to an entire structure
+    case Person(n, a) => s"Hi, my name is $n and i am $a years old." // its now matching bob to an entire structure
     case _ => "Something else"
   }
   println(personGreeting)
 
   // Pattern Matching usually used mainly for case classes but can be used elsewhere but thats more advanced
-
-  // ToDo: deconstructing tuples
+  
+  /**
+   * Deconstructing Tuples
+   */
+  
   val aTuple = ("Bon Jovi", "Rock")
   val bandDescription = aTuple match {
     case (band,genre) => s"$band belongs to the genre $genre" // if the tuple follows the strutted (band,genre) then use them on the right hand side
     case _ => "I dont know what your talking about"
   }
 
-  // ToDo: deconstructing Lists
+  /**
+   * Deconstructing Lists
+   */
+
   val aList = List(1,2,3)
   val listDescription = aList match {
     case List(_,2,_) => "List containing 2 on its second position" // in this case it checks for if a list has a size of 3 and then will look for the conditions, in this case 2

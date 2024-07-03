@@ -2,9 +2,6 @@ package com.rockthejvm
 
 object ObjectOrientation extends App{
 
-  // when you extend App it uses the App classes main method so its the equivalent of turning it into -->
-  // public static void main(String[] args){} --> this is why it is runnable
-
   /*
   * Scala is an Object oriented language so we can create classes which can be used all throughout our application
   * If you define a class just as other languages you can define members/attributes/fields and methods
@@ -12,7 +9,12 @@ object ObjectOrientation extends App{
   * you can still use private and protected to restrict this just as you would in Java
   * */
 
-  // ToDo: class and instance
+  // when you extend App it uses the App classes main method so its the equivalent of turning it into -->
+  // public static void main(String[] args){} --> this is why it is runnable
+  
+  /**
+   * Class and Instance
+   */
 
   class Animal{
     // define fields
@@ -25,7 +27,9 @@ object ObjectOrientation extends App{
 
   val anAnimal = new Animal // object anAnimal - instance of a class
 
-  // ToDo: inheritance
+  /**
+   * Inheritance
+   */
 
   /*
   * passing arguments to a class for example a dog has a name
@@ -50,20 +54,28 @@ object ObjectOrientation extends App{
   class Farm
   class Cat extends Animal
 
-  // ToDo: subtype polymorphism
+  /**
+   * Subtype Polymorphism
+   */
 
   val aDeclaredAnimal: Animal = new Dog("Spot")
   aDeclaredAnimal.eat() // even though it is an Animal object we instantiated it as a Dog
   // so in compile time it only knows to call eat from Animal object but at run time it will be called from the most derived method ie if Dog class overrides the method.
 
-  // ToDo: abstract class
+  /**
+   * Abstract Class
+   */
 
   abstract class WalkingAnimal{
     val hasLegs = true
     def walk(): Unit
   }
 
-  //ToDo: interface = ultimate abstract type meaning you can leave everything unimplemented
+  /**
+   * Interface:
+   * - ultimate abstract type: meaning you can leave everything unimplemented
+   */
+
   trait Carnivore {
     def eat(animal: Animal): Unit
   }
@@ -85,7 +97,10 @@ object ObjectOrientation extends App{
 
   // Scala does offer single Class and Multi Trait inheritance similar to Java
 
-  // ToDo: single-class inheritance, multi-trait "mixing"
+  /**
+   * Single-Class Inheritance, Multi-Trait "Mixing"
+   */
+
   // when adding multiple traits its called mixing in scala
 
   class Crocodile extends Animal with Carnivore with TravelType with Philosopher {
@@ -96,7 +111,9 @@ object ObjectOrientation extends App{
     override def ?!(thought: String): Unit = println(s"I was thinking$thought")
   }
 
-  // ToDo: scala method notation and method naming
+  /**
+   * Scala Method Notation and Method Naming
+   */
 
   val aCroc = new Crocodile
 
@@ -106,8 +123,10 @@ object ObjectOrientation extends App{
   // Infix Notation -> methods that have a single argument can be used in this way ==> object method argent
   aCroc eat aDog // ONLY AVAILABLE TO METHODS THAT HAVE ONE ARGUMENT
   aCroc ?! "What if we could fly?" // a method like this would look like an operator
-
-  // ToDo: Operators in Scala are actually Methods
+  
+  /**
+   * Operators in Scala are actually Methods
+   */
 
   val basicMath = 2 + 3 // the + which is an operator to add numbers is actually a method that belongs to the int type
   // this is equivalent to:
@@ -115,9 +134,11 @@ object ObjectOrientation extends App{
 
   // so all the operators we use day to day are all methods
 
-  // ToDo: anonymous classes
-
   /**
+   * Anonymous Classes
+   */
+
+  /*
    * In statically typed programming languages abstract methods ie interfaces cannot be instantiated by themselves
    * they need a concrete class to instantiate them
    */
@@ -143,7 +164,10 @@ object ObjectOrientation extends App{
   * this all happens automatically when you do the above
   *  */
 
-  // ToDo: singleton object - this is unique to scala
+  /**
+   * Singleton Object - this is unique to scala
+   */
+  
   // when you define the object as MySingleton you define the type as Singleton and then single instance as well
 
   object MySingleton{
@@ -176,8 +200,10 @@ object ObjectOrientation extends App{
   // when you call the object like this MySingleton(19) the compiler automatically interprets this as a call to the apply method
   // this is used in functional programming, the apply method allows instances of a class to be invoked like functions
 
-
-  // ToDo: companion objects
+  /**
+   * Companion Objects
+   */
+ 
   /*
   * this is where the object/trait has the same name as the class
   * companions can access each others private fields/methods but the instances of animals are different to the singleton animal
@@ -195,8 +221,10 @@ object ObjectOrientation extends App{
   // can access variables the same way you would with static methods in Java.
   val animalsCanLiveForever = Animal.canLiveIndefiitley
   val animalsIsNocturnal = Animal.isNocturnal()
-
-  // ToDo: Case Classes
+  
+  /**
+   * Case Classes
+   */
 
   /*
   * Case classes are lightweight data structures with some boilerplate
@@ -215,11 +243,14 @@ object ObjectOrientation extends App{
   // because each case class has an apply and you can instantiate the class using the apply method
 
   val michael = Person("Michael", 27) // this is equivalent to Person.apply("Michael",27)
+  
+  /**
+   * Exceptions
+   */
+  
+  val exceptions = "This section is about exceptions"
 
-  // ToDo: exceptions
-
-  // this is the normal structured try catch you would find in for example java ( the java version of catch being catch(Exception e) {....})
-  try{
+  try{  // this is the normal structured try catch you would find in for example java ( the java version of catch being catch(Exception e) {....})
     // can write code  that can thow
     val x: String = null
     println(x.length)
@@ -230,7 +261,9 @@ object ObjectOrientation extends App{
     // its useful for closing connections releasing files / resources
   }
 
-  // ToDo: Generics
+  /**
+   * Generics
+   */
 
   abstract class MyList[T] { //my list is applicable for any type denoted T (this also works for classes and traits)
     def head: T // which will return the element of type T

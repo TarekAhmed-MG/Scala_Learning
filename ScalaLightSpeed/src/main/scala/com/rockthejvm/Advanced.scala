@@ -7,9 +7,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object Advanced extends App{
 
-  /*
-  * lazy evaluation
-  * A Lazy evaluation means an expression will not be evalauted until its first use
+  /**
+  * Lazy Evaluation:
+  * - A Lazy evaluation means an expression will not be evaluated until its first use
   * */
 
   // if we assign the number 4 to the aLazyValue variable it still wont be defined by 4 until its been used and we can see this using a side effect.
@@ -30,10 +30,10 @@ object Advanced extends App{
   println(eagerValue) // now when we print eagerValue we can see that it will print I am so very Lazy because its being used now so it is being evaluated
   //this is usefull in inifite collections
 
-  /*
+  /**
   * pseudo-collections:
-  * Options, Try
-  * they are useful in unsafe methods
+  * - Options, Try
+  * - they are useful in unsafe methods
   * */
 
   // can defend agaisnt nulls
@@ -79,7 +79,7 @@ object Advanced extends App{
   // but a future is composable with map, flatmap and future
   // the future, try and option types are called monads
 
-  /*
+  /**
   * Implicits basics
   * */
 

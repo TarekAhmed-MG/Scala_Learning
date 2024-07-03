@@ -38,7 +38,9 @@ object FunctionalProgramming extends App{
 
   print(stringConcatenator("I love", " Scala")) // will return I Love Scala
 
-  //ToDo: Syntax Sugars
+  /**
+   * Syntax Sugars
+   */
 
   // these are alternative syntax which can be used to replace the heavier boiler plate code like above
 
@@ -56,8 +58,10 @@ object FunctionalProgramming extends App{
 
   // you can take this even further and take out the type all together as the compiler can infer it
   val doublerCondensed = (x: Int) => 2 * x
-
-  // ToDo: high-order functions: take functions as args or return functions as results or both
+  
+  /**
+   * High-Order Functions: Take functions as args or return functions as results or both
+   */
 
   val aMappedList: List[Int] = List(1,2,3).map(x => x + 1) // the anonymous function x => x + 1 is passed to the method of .map so .map is a Higher Order Function (HOF)
   println(aMappedList) // aMappedList is a different List to the List(1,2,3) as Lists are immutable
@@ -90,7 +94,10 @@ object FunctionalProgramming extends App{
 
   // scala allows for human readable chains of maps as they can become quite complex in large codebases
 
-  // ToDo: for comprehensions
+  /**
+   * For Comprehensions
+   */
+  
   /*
   * for is a keyword in Scala and it doesnt mean for loops
   * this is useful with collections and parallel, distributed environments, spark etc..
@@ -145,13 +152,4 @@ object FunctionalProgramming extends App{
     ("Daniel", 12382),
     "Jane" -> 213123 // this is another way of doing a tuple ("Jane" -> 213123)
   )
-
-
-
-
-
-
-
-
-
 }

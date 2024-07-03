@@ -3,14 +3,18 @@ package com.rockthejvm
 object Basics extends App{
   // by extending app - it allows you to execute any code between the curly braces as a standalone executable
 
-  // ToDo: defining a value
+  /**
+   * Defining a value
+   */
   
   val meaningOfLife: Int = 42 //  this is the structure of defining a value - Keyword Val - name of value - type  then declaration
   // val is the equivalent of a cost in javascript or final in java (immutable) cannot be reassigned
 
   val aBoolean = false // you also dont need to mention type (: Int etc.) - most of the time its optional.
 
-  // ToDo: Strings and String operations
+  /**
+   * Strings and String Operations
+   */
   
   val aString = "I love Scala"
   val aComposedString = "I" + "Love" + "Scala" // you can concatenate strings like other languages
@@ -18,14 +22,18 @@ object Basics extends App{
 
   // with scala you have to think of values and expressions (the right hand side is the expression)
 
-  // ToDo: expressions = structures that can be reduced to a value
+  /**
+   * Expressions = Structures that can be reduced to a value
+   */
   
   val anExpression = 2 + 3
 
   // generally in other programming languages we think of things as instructions which the computer does sequentially
   // but in scala we dont think like this we think of values and composing them to obtain new values
 
-  // ToDo: if-expression - these are like if else in java using the ternary operator eg..  int result = 11 > 9 ? ++val1 : ++val2;
+  /**
+   * If-Expression - these are like if else in java using the ternary operator eg..  int result = 11 > 9 ? ++val1 : ++val2;
+   */
   
   val ifEpression = if(meaningOfLife > 43) 56 else 999
   // this is a if expression as it reduces to a single value which is either 56 or 999 depending on the value of meaningOfLife
@@ -39,7 +47,9 @@ object Basics extends App{
 
   // we are thinking in a different way now as we are now assigning values to the names if conditions are met instead of doing something depending on a condition
 
-  // ToDo: code blocks
+  /**
+   * Code Blocks
+   */
   
     // you can add definitions, functions classes and even inner codeblocks inside code blocks but would need to return something.
   val aCodeBlock = {
@@ -50,7 +60,9 @@ object Basics extends App{
     aLocalValue + 3 // we havent defined the type of the codeblock but the compiler looks at this and automatically defines it.
   }
 
-  // ToDo: define a function
+  /**
+   * Define a function
+   */
   
   /*
       you start a function using def like python then pass the name and parenthesis
@@ -67,7 +79,9 @@ object Basics extends App{
     y + " " + x
   }
 
-  // ToDo: functions 
+  /**
+   * Functions
+   */
   
   // functions can be complex and depend on their own expressions meaning they can be recursive
 
@@ -75,7 +89,9 @@ object Basics extends App{
 
   // In Scala we dont use loops or iteration, we use RECURSION! there are loops and variables but it is discouraged
 
-  // ToDo: Unit type 
+  /**
+   * Unit Type 
+   */
   
   /*
       which means --> no meaningful value === "void" in other languages
