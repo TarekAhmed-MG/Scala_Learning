@@ -1,8 +1,6 @@
 package FinalPractical
 
-import FinalPractical.Run.itemTypes
-
-object Run extends App {
+object VersionOne {
   // V1 code - first iteration
 
   object itemTypes extends Enumeration {
@@ -20,8 +18,8 @@ object Run extends App {
     "Lobster" -> (itemTypes.PremiumFood, 25.00),
     "Tuna Sandwich" -> (itemTypes.Food, 5.00),
     "Cheese Sandwich" -> (itemTypes.Food, 5.00),
-    "Plain Chips" ->(itemTypes.HotFood, 3.50),
-    "Loaded Fries" ->(itemTypes.HotFood, 6.50),
+    "Plain Chips" -> (itemTypes.HotFood, 3.50),
+    "Loaded Fries" -> (itemTypes.HotFood, 6.50),
     "Coca Cola" -> (itemTypes.Drink, 1.30),
     "Fanta" -> (itemTypes.Drink, 1.20)
 
@@ -36,10 +34,10 @@ object Run extends App {
     val totalBillNoServiceCharge = purchasedItems.flatMap(x => menuItems.get(x)).map(x => x(1)).sum // tuple get integer
     val totalItemTypesOrdered = purchasedItems.flatMap(x => menuItems.get(x)).map(x => x(0)) // tuple get item type
 
-//    val serviceCharge = if totalItemTypesOrdered.contains(itemTypes.PremiumFood) then if totalBillNoServiceCharge * 25/100 > 40 then 40 else totalBillNoServiceCharge * 25/100
-//    else if totalItemTypesOrdered.contains(itemTypes.HotFood) then if totalBillNoServiceCharge * 20/100 > 20 then 20 else totalBillNoServiceCharge * 20/100
-//    else if totalItemTypesOrdered.contains(itemTypes.Food) then if totalBillNoServiceCharge * 10/100 > 20 then 20 else totalBillNoServiceCharge * 10/100
-//    else totalBillNoServiceCharge
+    //    val serviceCharge = if totalItemTypesOrdered.contains(itemTypes.PremiumFood) then if totalBillNoServiceCharge * 25/100 > 40 then 40 else totalBillNoServiceCharge * 25/100
+    //    else if totalItemTypesOrdered.contains(itemTypes.HotFood) then if totalBillNoServiceCharge * 20/100 > 20 then 20 else totalBillNoServiceCharge * 20/100
+    //    else if totalItemTypesOrdered.contains(itemTypes.Food) then if totalBillNoServiceCharge * 10/100 > 20 then 20 else totalBillNoServiceCharge * 10/100
+    //    else totalBillNoServiceCharge
 
     val serviceCharge = totalItemTypesOrdered match {
       case x if x.contains(itemTypes.PremiumFood) => if totalBillNoServiceCharge * 25 / 100 > 40 then 40 else totalBillNoServiceCharge * 25 / 100
@@ -54,7 +52,5 @@ object Run extends App {
   }
   // when you place order total bill takes the customer details too and then adds a star using class copy
 
-
-  TotalBill(menuItems, List("Chicken Burger","Beef Burger","Plain Chips"))
-
+  TotalBill(menuItems, List("Chicken Burger", "Beef Burger", "Plain Chips"))
 }
