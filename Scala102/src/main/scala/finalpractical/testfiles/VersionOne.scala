@@ -1,6 +1,6 @@
-package FinalPractical
+package finalpractical.testfiles
 
-object VersionOne {
+object VersionOne extends App{
   // V1 code - first iteration
 
   object itemTypes extends Enumeration {

@@ -1,6 +1,7 @@
-package FinalPractical
+package finalpractical.testfiles
 
-import FinalPractical.ScratchPad.itemTypes
+import finalpractical.Customer
+
 
 object ScratchPad extends App{
  // Scratchpad - playground to test ideas

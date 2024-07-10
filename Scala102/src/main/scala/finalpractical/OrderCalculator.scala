@@ -1,6 +1,6 @@
-package FinalPractical
+package finalpractical
 
-object OrderCalculator extends App{
+case class OrderCalculator(name: String){
 // Main Code
 
   object itemTypes extends Enumeration {
@@ -51,12 +51,7 @@ object OrderCalculator extends App{
       case _ => 0
     }
 
-    val totalBill = bill + serviceCharge
-    println(s"Total: £$totalBill")
-    totalBill
+    bill + serviceCharge
   }
-
-  val tarek = Customer("Tarek", 0)
-  TotalBill(calculateOrder, List("Chicken Burger", "Beef Burger", "Plain Chips"), tarek)
 
 }
