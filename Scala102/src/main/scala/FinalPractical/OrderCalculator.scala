@@ -35,7 +35,7 @@ object OrderCalculator extends App{
       case x if x >= 3 && x <= 9 => bill - (calculateBillNoPremium * customer.loyaltyPoints / 100)
       case _ => bill
     }
-
+    
     (total, itemTypesOrdered)
   }
 
