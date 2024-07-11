@@ -1,7 +1,7 @@
 package finalpractical
 
-case class OrderCalculator(name: String){
-// Main Code
+object ScratchFile extends App {
+  // Main Code
 
   object itemTypes extends Enumeration {
     type itemType = Value
@@ -30,21 +30,19 @@ case class OrderCalculator(name: String){
     val itemTypesOrdered = purchasedItems.flatMap(x => menuItems.get(x)).map(x => x(0)) // tuple get item type
     val calculateBillNoPremium = bill - menuItems.collect { case (key, value) if value(0) == itemTypes.PremiumFood => value(1) }.sum // collect allows you to filter and apply any transformations in 1 go
 
-    val total = customer match {
+   val total = customer match
       case None => bill
       case Some(customer) => customer.loyaltyPoints match {
         case 10 => bill - (calculateBillNoPremium * 20 / 100)
         case x if x >= 3 && x <= 9 => bill - (calculateBillNoPremium * customer.loyaltyPoints / 100)
         case _ => bill
       }
-    }
-
-    //
-    //    val total = customer.loyaltyPoints match {
-    //      case 10 => bill - (calculateBillNoPremium * 20 / 100)
-    //      case x if x >= 3 && x <= 9 => bill - (calculateBillNoPremium * customer.loyaltyPoints / 100)
-    //      case _ => bill
-    //    }
+//
+//    val total = customer.loyaltyPoints match {
+//      case 10 => bill - (calculateBillNoPremium * 20 / 100)
+//      case x if x >= 3 && x <= 9 => bill - (calculateBillNoPremium * customer.loyaltyPoints / 100)
+//      case _ => bill
+//    }
 
     (total, itemTypesOrdered)
   }
@@ -63,5 +61,9 @@ case class OrderCalculator(name: String){
 
     bill + serviceCharge
   }
+
+  val tarek = Customer("Tarek", 0)
+  val tareksOrder = TotalBill(calculateOrder, List("Chicken Burger", "Beef Burger", "Plain Chips", "Lobster"), Some(tarek))
+  println(s"Total: £$tareksOrder")
 
 }
