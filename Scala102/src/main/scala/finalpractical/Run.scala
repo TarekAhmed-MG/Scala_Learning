@@ -24,10 +24,12 @@ object Run extends App{
   println(menuItems)
 
   val tareksOrder = restaurant.TotalBill(
-    restaurant.calculateOrder,menuItems,
+    restaurant.calculateOrder,
+    menuItems,
     List("Chicken Burger", "Beef Burger", "Plain Chips", "Lobster","Crab"),
     Some(tarek),
-    jane
+    jane,
+    None
   )
 
   println(s"Order Details: \n Total: £${tareksOrder.head}\n Employee: ${tareksOrder(1)}\n Store Id: ${tareksOrder(2)}\n Date and Time: ${tareksOrder(3)}")
