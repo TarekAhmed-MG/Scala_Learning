@@ -1,14 +1,19 @@
 package finalpractical
 
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 case class Restaurant(name: String, theme: String){
 // Main Code
 
-  val addMenuItem: (Vector[Item],Item) => (Vector[Item]) = (menuItems, item) => {
+  val addMenuItem: (Vector[Item],Item) => Vector[Item] = (menuItems, item) => {
     val addItem = menuItems :+ item
     addItem
+  }
+
+  val happyHour: Boolean = {
+    LocalTime.now.isAfter(LocalTime.of(18,0,0)) && LocalTime.now.isBefore(LocalTime.of(21,0,0))
   }
 
   // pass in an optional[String] where None give GBP(no transformation and others apply a transformation to the bill val by Currency Enum
@@ -17,20 +22,23 @@ case class Restaurant(name: String, theme: String){
     
     val order = purchasedItems.flatMap(x => menuItems.collect{case item if item.name == x => item})
     //val bill = order.collect(x => x.price).sum
-    //val calculateBillNoPremium = bill - order.filter(x => x.isPremium).map(x => x.price).sum
-    
-    // do a case match that matches the string to the currency key and then apply the transformation on bill val bill match .....
-    
-    val bill = currency match
-      case Some(currency) => currency match {
-        case Currency.USD.code => order.collect(x => x.price).sum * Currency.USD.value
-        case Currency.EUR.code => order.collect(x => x.price).sum * Currency.EUR.value
-        case Currency.JPY.code => order.collect(x => x.price).sum * Currency.JPY.value
-        case Currency.CAD.code => order.collect(x => x.price).sum * Currency.CAD.value
-      }
-      case None => order.collect(x => x.price).sum
 
-    val calculateBillNoPremium = bill - order.filter(x => x.isPremium).map(x => x.price).sum
+    val billHappyHourCheck = if happyHour
+    then order.collect(x=> if x.isDrink then x.price/2 else x.price).sum
+    else order.collect(x => x.price).sum
+
+    // do a case match that matches the string to the currency key and then apply the transformation on bill val bill match .....
+
+//    val billWithCurrencyCheck = currency match
+//      case Some(currency) => currency match {
+//        case Currency.USD.code => billHappyHourCheck * Currency.USD.value
+//        case Currency.EUR.code => billHappyHourCheck * Currency.EUR.value
+//        case Currency.JPY.code => billHappyHourCheck * Currency.JPY.value
+//        case Currency.CAD.code => billHappyHourCheck * Currency.CAD.value
+//      }
+//      case None => order.collect(x => x.price).sum
+
+    val calculateBillNoPremium = billHappyHourCheck - order.filter(x => x.isPremium).map(x => x.price).sum
 
     val itemTypesOrdered = purchasedItems.flatMap(x => menuItems.collect{case item if item.name == x => item match {
       case item if item.isPremium => itemTypes.PremiumFood
@@ -41,15 +49,24 @@ case class Restaurant(name: String, theme: String){
       }})
 
     val total = customer match {
-      case None => bill
+      case None => billHappyHourCheck
       case Some(customer) => customer.loyaltyPoints match {
-        case 10 => bill - (calculateBillNoPremium * 20 / 100)
-        case x if x >= 3 && x <= 9 => bill - (calculateBillNoPremium * customer.loyaltyPoints / 100)
-        case _ => bill
+        case 10 => billHappyHourCheck - (calculateBillNoPremium * 20 / 100)
+        case x if x >= 3 && x <= 9 => billHappyHourCheck - (calculateBillNoPremium * customer.loyaltyPoints / 100)
+        case _ => billHappyHourCheck
       }
     }
+
+    val totalWithCurrencyCheck = currency match
+      case Some(currency) => currency match {
+        case Currency.USD.code => total * Currency.USD.value
+        case Currency.EUR.code => total * Currency.EUR.value
+        case Currency.JPY.code => total * Currency.JPY.value
+        case Currency.CAD.code => total * Currency.CAD.value
+      }
+      case None => order.collect(x => x.price).sum
     
-    (total, itemTypesOrdered)
+    (totalWithCurrencyCheck, itemTypesOrdered)
   }
 
   // here do a case match and give the currency sign and pass that to the list
@@ -59,11 +76,11 @@ case class Restaurant(name: String, theme: String){
                 purchasedItems: List[String], 
                 customer: Option[Customer],
                 employee: Employee,
-                currency:Option[String]
+                currency:Option[String] = None
                ) = {
 
-    val itemList = funcOrder(menuItems,purchasedItems, customer,currency)(1)
-    val bill = funcOrder(menuItems,purchasedItems, customer,currency)(0)
+    val itemList = funcOrder(menuItems,purchasedItems, customer, currency)(1)
+    val bill = funcOrder(menuItems,purchasedItems, customer, currency)(0)
 
     val serviceCharge = itemList match {
       case x if x.contains(itemTypes.PremiumFood) => if bill * 25 / 100 > 40 then 40 else bill * 25 / 100
@@ -71,8 +88,18 @@ case class Restaurant(name: String, theme: String){
       case x if x.contains(itemTypes.Food) => if bill * 10 / 100 > 20 then 20 else bill * 10 / 100
       case _ => 0
     }
-    
+
+    val currencySymbol = currency match
+      case Some(currency) => currency match {
+        case Currency.USD.code => Currency.USD.symbol
+        case Currency.EUR.code => Currency.EUR.symbol
+        case Currency.JPY.code => Currency.JPY.symbol
+        case Currency.CAD.code => Currency.CAD.symbol
+      }
+      case None => "£"
+
     List(
+      currencySymbol,
       bill + serviceCharge,
       employee.name,
       employee.storeId,

@@ -14,7 +14,7 @@ object Run extends App{
     Item("Cheese Sandwich",false,true,true,false,5.00),
     Item("Plain Chips",false,true,false,false,3.50),
     Item("Loaded Fries",false,true,false,false,6.50),
-    Item("Coca Cola",false,false,false,true,1.30),
+    Item("Coca Cola",false,false,false,true,10.00),
     Item("Fanta",false,true,false,true,1.20),
   )
 
@@ -26,12 +26,12 @@ object Run extends App{
   val tareksOrder = restaurant.TotalBill(
     restaurant.calculateOrder,
     menuItems,
-    List("Chicken Burger", "Beef Burger", "Plain Chips", "Lobster","Crab"),
+    List("Coca Cola", "Coca Cola", "Coca Cola", "Coca Cola","Coca Cola"),
     Some(tarek),
     jane,
-    None
+    Some("USD")
   )
 
-  println(s"Order Details: \n Total: £${tareksOrder.head}\n Employee: ${tareksOrder(1)}\n Store Id: ${tareksOrder(2)}\n Date and Time: ${tareksOrder(3)}")
+  println(s"Order Details: \n Total: ${tareksOrder.head}${tareksOrder(1)}\n Employee: ${tareksOrder(2)}\n Store Id: ${tareksOrder(3)}\n Date and Time: ${tareksOrder(4)}")
 
 }
