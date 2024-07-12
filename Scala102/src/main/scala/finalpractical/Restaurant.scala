@@ -29,15 +29,6 @@ case class Restaurant(name: String, theme: String){
 
     // do a case match that matches the string to the currency key and then apply the transformation on bill val bill match .....
 
-//    val billWithCurrencyCheck = currency match
-//      case Some(currency) => currency match {
-//        case Currency.USD.code => billHappyHourCheck * Currency.USD.value
-//        case Currency.EUR.code => billHappyHourCheck * Currency.EUR.value
-//        case Currency.JPY.code => billHappyHourCheck * Currency.JPY.value
-//        case Currency.CAD.code => billHappyHourCheck * Currency.CAD.value
-//      }
-//      case None => order.collect(x => x.price).sum
-
     val calculateBillNoPremium = billHappyHourCheck - order.filter(x => x.isPremium).map(x => x.price).sum
 
     val itemTypesOrdered = purchasedItems.flatMap(x => menuItems.collect{case item if item.name == x => item match {
@@ -105,6 +96,5 @@ case class Restaurant(name: String, theme: String){
       employee.storeId,
       LocalDateTime.now.format(DateTimeFormatter.ofPattern("[dd-MM-yyyy] [HH:mm:ss]"))
     )
-    
   }
 }

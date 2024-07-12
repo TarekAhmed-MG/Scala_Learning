@@ -21,7 +21,6 @@ object Run extends App{
   val crab = Item("Crab",true,true,false,false,25.00)
 
   menuItems = restaurant.addMenuItem(menuItems,crab)
-  println(menuItems)
 
   val tareksOrder = restaurant.TotalBill(
     restaurant.calculateOrder,
