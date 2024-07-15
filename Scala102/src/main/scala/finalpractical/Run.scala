@@ -6,8 +6,9 @@ object Run extends App{
   val jane = Employee("Jane",1011,"London-121")
   val restaurant = Restaurant("KFC","American")
 
+  //Item("Chicken Burger",isPremium = false,true,Food,10.00), // try avoid passing primitive types in as it makes it unreadable so try pass in objects
   var menuItems = Vector(
-    Item("Chicken Burger",false,true,false,false,10.00),
+    Item("Chicken Burger",isPremium = false,true,false,false,10.00), 
     Item("Beef Burger",false,true,false,false,15.00),
     Item("Lobster",true,true,false,false,25.00),
     Item("Tuna Sandwich",false,false,true,false,5.00),
