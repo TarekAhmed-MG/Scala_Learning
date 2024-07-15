@@ -29,11 +29,5 @@ object ValuesVariablesTypes extends App{
   // variables are mutable and in functional programming they are used for side effects
   // side effects allows us to see what our programs are doing but there are dangers to side effects and need to be mindful of them
   // functional programming uses vals more
-
-
-
-
-
-
-
+  
 }
