@@ -6,4 +6,7 @@ object Run extends App {
 
   println(s"your random Character is: $randomCharacter")
   guessWho.printCurrentCharacters(guessWho.people)
+
+
+
 }

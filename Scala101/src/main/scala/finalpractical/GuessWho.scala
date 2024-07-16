@@ -26,14 +26,11 @@ case class GuessWho(name: String) {
 
   def printCurrentCharacters(characterList: List[GameCharacter]): Unit = {
     characterList.foreach(character => println(character.name))
-  }
+  } // put it in GameCharacter class as an object
 
-  def guess(guess: String, character: GameCharacter) = {
+  def guess(guess: String, character: GameCharacter) = guess.toLowerCase.equals(character.name.toLowerCase) // refactor this make a val that chooses the character and take out the argument character game character all together
     //take the guess and character name put them to lower then check if they are the same, if they are return true otherwise return false
     // val characterGuess = if guess.toLowerCase.equals(character.name.toLowerCase) then true else false
-    val characterGuess = guess.toLowerCase.equals(character.name.toLowerCase) // both equal
-    characterGuess
-  }
 
   def question(charcterList: List[GameCharacter], characterType: CharacterAttribute.Value, question: String):List[GameCharacter] = {
 
@@ -49,7 +46,7 @@ case class GuessWho(name: String) {
 
     // instead of if else you can use pattern matching => match case
 
-    val update = characterType.toString.toLowerCase match {
+    characterType.toString match {
       case "gender" => charcterList.filter(x => question.equals(x.gender))
       case "hair" => charcterList.filter(x => question.equals(x.hair))
       case "skincolour" => charcterList.filter(x => question.equals(x.skinColour))
@@ -57,6 +54,5 @@ case class GuessWho(name: String) {
       case "headwear" => charcterList.filter(x => question.equals(x.headwear))
       case _ => charcterList
     }
-    update
   }
 }

@@ -8,8 +8,8 @@ case class Restaurant(name: String, theme: String){
 // Main Code
 
   val addMenuItem: (Vector[Item],Item) => Vector[Item] = (menuItems, item) => {
-    val addItem = menuItems :+ item
-    addItem
+   menuItems :+ item
+
   }
 
   val happyHour: Boolean = {
@@ -21,13 +21,8 @@ case class Restaurant(name: String, theme: String){
   val calculateOrder:(Vector[Item], List[String], Option[Customer],Option[String]) => (Double,List[Any]) = (menuItems,purchasedItems, customer, currency) => {
     
     val order = purchasedItems.flatMap(x => menuItems.collect{case item if item.name == x => item})
-    //val bill = order.collect(x => x.price).sum
 
-    val billHappyHourCheck = if happyHour
-    then order.collect(x=> if x.isDrink then x.price/2 else x.price).sum
-    else order.collect(x => x.price).sum
-
-    // do a case match that matches the string to the currency key and then apply the transformation on bill val bill match .....
+    val billHappyHourCheck = if happyHour then order.collect(x=> if x.isDrink then x.price/2 else x.price).sum else order.collect(x => x.price).sum
 
     val calculateBillNoPremium = billHappyHourCheck - order.filter(x => x.isPremium).map(x => x.price).sum
 
@@ -55,7 +50,7 @@ case class Restaurant(name: String, theme: String){
         case Currency.JPY.code => total * Currency.JPY.value
         case Currency.CAD.code => total * Currency.CAD.value
       }
-      case None => order.collect(x => x.price).sum
+      case None => total
     
     (totalWithCurrencyCheck, itemTypesOrdered)
   }
