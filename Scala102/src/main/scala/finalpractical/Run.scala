@@ -2,7 +2,7 @@ package finalpractical
 
 object Run extends App{
 
-  val tarek = Customer("Tarek", 10)
+  val tarek = Customer("Tarek", 3)
   val jane = Employee("Jane",1011,"London-121")
   val restaurant = Restaurant("KFC","American")
 
@@ -35,7 +35,8 @@ object Run extends App{
     menuItems,
     List("Cheese Burger", "Beef Burger", "Lobster", "Cola","Coffee"),
     Some(tarek),
-    jane
+    jane,
+    Some("USD")
   )
 
   println(s"Order Details: \n Total: ${tareksOrder.head}${tareksOrder(1)}\n Employee: ${tareksOrder(2)}\n Store Id: ${tareksOrder(3)}\n Date and Time: ${tareksOrder(4)}")

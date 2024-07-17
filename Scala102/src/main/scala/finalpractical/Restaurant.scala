@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter
 case class Restaurant(name: String, theme: String){
 // Main Code
 
+
   val addMenuItem: (Vector[Item],Item) => Vector[Item] = (menuItems, item) => {
    menuItems :+ item
 
@@ -21,7 +22,7 @@ case class Restaurant(name: String, theme: String){
   val calculateOrder:(Vector[Item], List[String], Option[Customer],Option[String]) => (Double,List[Any]) = (menuItems,purchasedItems, customer, currency) => {
     
     val order = purchasedItems.flatMap(x => menuItems.collect{case item if item.name == x => item})
-
+    
     val billHappyHourCheck = if happyHour then order.collect(x=> if x.isDrink then x.price/2 else x.price).sum else order.collect(x => x.price).sum
 
     val calculateBillNoPremium = billHappyHourCheck - order.filter(x => x.isPremium).map(x => x.price).sum
@@ -56,7 +57,17 @@ case class Restaurant(name: String, theme: String){
   }
 
   // here do a case match and give the currency sign and pass that to the list
-  
+
+  /**
+   * HOF returns total bill with service charge included
+   * @param funcOrder takes in calculateOrder
+   * @param menuItems
+   * @param purchasedItems
+   * @param customer
+   * @param employee
+   * @param currency
+   * @return
+   */
   def TotalBill(funcOrder: (Vector[Item], List[String], Option[Customer],Option[String]) => (Double, List[Any]),
                 menuItems: Vector[Item],
                 purchasedItems: List[String], 
