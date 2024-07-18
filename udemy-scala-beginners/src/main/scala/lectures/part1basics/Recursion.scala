@@ -91,7 +91,37 @@ object Recursion extends App{
 
    */
 
+  // A GENERAL RULE OF THUMB IS HOWEVER MANY CALLS YOU HAVE IN THE CODE PATH IS THE AMOUNT OF ACCUMULATORS YOU NEED
+
   // Examples:
+
+  /*
+    1. Concatenate a string n times
+    2. IsPrime function, tail recursive
+    3. Fibonacci function, tail recursive
+   */
+
+  //1.
+
+  //2.
+
+  def fibonacci(n: Int): Int = if (n <= 2) 1 else fibonacci(n - 1) + fibonacci(n - 2)
+  println(s"the 8th number in the fibonacci sequence is ${fibonacci(8)}")
+
+  def fib(n:Int)= {
+    @tailrec
+    def fibHelper(t:Int, last : Int, secondToLast: Int): Int = {
+      if (t >= n) last
+      else  fibHelper(t + 1, last + secondToLast, last)
+    }
+    fibHelper(1,1,0)
+  }
+
+  println("Tail recursive: " + fib(8))
+
+
+
+  //3.
 
 
 

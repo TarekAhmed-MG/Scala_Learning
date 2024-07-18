@@ -26,8 +26,8 @@ object Functions extends App{
   def factorial(n: Int): Int = if (n<=2) 1 else n * factorial(n-1)
   println(s"10 factorial is ${factorial(10)}")
 
-  def fibonacci(n:Int): Int = if (n < 2) 1 else fibonacci(n-1) + fibonacci(n-2)
-  println(s"the 10th number in the fibonacci sequence is ${fibonacci(10)}")
+  def fibonacci(n:Int): Int = if (n <= 2) 1 else fibonacci(n-1) + fibonacci(n-2)
+  println(s"the 10th number in the fibonacci sequence is ${fibonacci(8)}")
 
   def isPrime(n:Int): Boolean = {
     @tailrec
