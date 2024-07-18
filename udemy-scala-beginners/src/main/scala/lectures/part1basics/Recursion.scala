@@ -114,7 +114,7 @@ object Recursion extends App{
       if (t >= n) last
       else  fibHelper(t + 1, last + secondToLast, last)
     }
-    fibHelper(1,1,0)
+    fibHelper(2,1,1) // can start and 2 accumulators 1 and 1 because they are the first fibonacci numbers you can do (1,1,0) that works too.
   }
 
   println("Tail recursive: " + fib(8))
