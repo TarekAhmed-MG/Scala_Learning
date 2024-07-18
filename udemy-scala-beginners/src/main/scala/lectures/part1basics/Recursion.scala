@@ -9,6 +9,8 @@ object Recursion extends App{
   // Tail Recursion combats this and you put the recursive call as the last statement this makes it tail recursive.
 
 
+  // STACK RECURSION
+
   def factorial(n: Int): Int =
     if (n <= 1) 1
     else {
@@ -88,5 +90,11 @@ object Recursion extends App{
     - Resulting in improvements in both space and time complexity ( space : Stack doesnt grow, time: no unwinding process in the end as recursive call is final operation)
 
    */
+
+  // Examples:
+
+
+
+
 
 }
