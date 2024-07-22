@@ -82,11 +82,33 @@ class Counter(val value:Int){
   // the methods below is the way you extend immutability to functions and methods
   // you return back a new counter each time to show that once defined the previous counter cannot be changed
 
-  def Increment = new Counter(this.value + 1)
-  def Decrement = new Counter(this.value - 1)
+  def Increment: Counter = new Counter(this.value + 1)
 
-  def Increment(value:Int) = new Counter(value + 1)
-  def Decrement(value:Int) = new Counter(value - 1)
+  def Decrement: Counter = new Counter(this.value - 1)
+
+//  def Increment(value:Int) = new Counter(this.value + value)
+//  def Decrement(value:Int) = new Counter(this.value - value)
+
+/*
+  - Method Chaining Basics: The method returns this or a new instance of the class, allowing the next method to be called on it.
+  - Benefits: It makes code more readable and concise by eliminating the need for temporary variables and multiple statements.
+  - Applicability: Method chaining can be used in any object-oriented programming language that allows methods to return objects.
+ */
+
+  // the reason why you can call increment.increment(value -1) is because .increment(value -1) is applied to the result of increment
+  // which is a new counter and Increment(value -1) is applied to the new instance.
+
+  // can use a recursive function
+  def Increment(value:Int): Counter = {
+    if(value<=0) this // if the value given is 0 then return the same instance
+    else Increment.Increment(value-1)
+  }
+
+  def Decrement(value: Int): Counter = {
+    if (value <= 0) this // if the value given is 0 then return the same instance
+    else Decrement.Decrement(value - 1) // otherwise call the decrement function and also recursively call this method
+    // with decrementing the value each time till it gets to 0
+  }
 
 }
 
