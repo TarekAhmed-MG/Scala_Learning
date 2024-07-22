@@ -71,11 +71,22 @@ class Counter(val value:Int){
 
   def CurrentCount: Int = this.value
 
-  def Increment: Int = this.value + 1
-  def Decrement: Int = this.value - 1
+  // These functions below work but do not represent immutability which is important in functional programming
 
-  def Increment(value:Int): Int = value + 1
-  def Decrement(value:Int): Int = value - 1
+//  def Increment: Int = this.value + 1
+//  def Decrement: Int = this.value - 1
+//
+//  def Increment(value:Int): Int = value + 1
+//  def Decrement(value:Int): Int = value - 1
+
+  // the methods below is the way you extend immutability to functions and methods
+  // you return back a new counter each time to show that once defined the previous counter cannot be changed
+
+  def Increment = new Counter(this.value + 1)
+  def Decrement = new Counter(this.value - 1)
+
+  def Increment(value:Int) = new Counter(value + 1)
+  def Decrement(value:Int) = new Counter(value - 1)
 
 }
 
