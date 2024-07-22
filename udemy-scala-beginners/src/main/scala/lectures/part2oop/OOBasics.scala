@@ -5,8 +5,8 @@ object OOBasics extends App{
 
   val person = new Person()
 
-  val counter = new Counter(10)
-  println(counter.Decrement(17))
+  val counter = new Counter(25)
+  println(counter.Decrement(10).CurrentCount)
 
 
 }
@@ -101,7 +101,7 @@ class Counter(val value:Int){
   // can use a recursive function
   def Increment(value:Int): Counter = {
     if(value<=0) this // if the value given is 0 then return the same instance
-    else Increment.Increment(value-1)
+    else Increment.Increment(value - 1)
   }
 
   def Decrement(value: Int): Counter = {
