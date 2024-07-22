@@ -53,7 +53,7 @@ class Novel(name:String, yearOfRelease:Int, author:Writer){
 
   val authorAge : Int = author.year - yearOfRelease
 
-  def isWrittenBy(author:Writer) = author.firstName
+  def isWrittenBy(author:Writer) = author == this.author
 
   def copy(releaseYear:Int) = new Novel(name,releaseYear,author)
 
