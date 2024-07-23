@@ -103,7 +103,30 @@ object Recursion extends App{
 
   //1.
 
+  @tailrec
+  def concatenateTailrec(aString: String, n: Int, accumulator: String): String =
+    if (n <= 0) accumulator
+    else concatenateTailrec(aString, n - 1, aString + accumulator)
+
+  println(concatenateTailrec("hello", 3, ""))
+
   //2.
+
+  def isPrime(n: Int): Boolean = {
+    @tailrec
+    def isPrimeTailrec(t: Int, isStillPrime: Boolean): Boolean =
+      if (!isStillPrime) false
+      else if (t <= 1) true
+      else isPrimeTailrec(t - 1, n % t != 0 && isStillPrime)
+
+    isPrimeTailrec(n / 2, true)
+  }
+
+  println(isPrime(2003))
+  println(isPrime(629))
+
+
+  //3.
 
   def fibonacci(n: Int): Int = if (n <= 2) 1 else fibonacci(n - 1) + fibonacci(n - 2)
   println(s"the 8th number in the fibonacci sequence is ${fibonacci(8)}")
@@ -120,8 +143,6 @@ object Recursion extends App{
   println("Tail recursive: " + fib(8))
 
 
-
-  //3.
 
 
 
