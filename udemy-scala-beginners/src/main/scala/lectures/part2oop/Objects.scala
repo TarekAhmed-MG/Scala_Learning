@@ -54,6 +54,4 @@ object Objects {
   // Scala Applications = Scala object with
   // def main(args: Array[String]): Unit
 
-
-
 }
