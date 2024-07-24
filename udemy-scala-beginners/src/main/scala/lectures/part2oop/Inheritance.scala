@@ -107,7 +107,7 @@ object Inheritance extends App{
   specifically say they extend a different class, so String,List etc extends AnyRef. And derived from all of those are is the Scala.Null, its only instance is the null reference
   which means no reference. Since Null extends everything you can replace anything with Null for example an object Person or a variable name.
 
-  AnyVal contains all the primitive values of scala such as Int, Boolean, Float etc. And there are other classese that extend AnyVal and is hardly used in practice and rarely needed
+  AnyVal contains all the primitive values of scala such as Int, Boolean, Float etc. And there are other classes that extend AnyVal and is hardly used in practice and rarely needed
   to extend AnyVal (may be used for memory optimization)
 
   Derived from all of these is scala.Nothing as its a subtype of everything which means this can replace everything like Null does but it means there is no instance of anything at all
