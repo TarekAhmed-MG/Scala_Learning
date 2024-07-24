@@ -1,4 +1,4 @@
 # Scala_Learning
 
 Notes for Tarek:
-do some excersises on generics 
+do some Exercises on generics 
