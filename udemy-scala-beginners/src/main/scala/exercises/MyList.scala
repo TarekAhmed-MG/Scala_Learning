@@ -48,6 +48,5 @@ object ListTest extends App {
   println(list.tail.head) // should give 2
   println(list.add(4).head) // should print 4 because adding an element adds it to the head
   println(list.toString)
-
-
+  
 }
