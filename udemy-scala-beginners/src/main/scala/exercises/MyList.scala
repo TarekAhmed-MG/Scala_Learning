@@ -18,7 +18,9 @@ abstract class MyList[+A] {
 
   // Applies the given transformer function to each element in the list,
   // which returns a list for each element. These lists are then concatenated into a single list.
-  def flatMap[B](transformer: MyTransformer[A,MyList[B]]): MyList[B]
+  def flatMap[B](transformer: MyTransformer[A,MyList[B]]): MyList[B] // for a flatmap we need a concatenation method
+  def ++[B>: A](list: MyList[B]): MyList[B] // concatenation
+
 
   // Filters the elements of the list using the given predicate,
   // resulting in a new list that contains only the elements that satisfy the predicate.
@@ -42,8 +44,10 @@ object Empty extends MyList[Nothing] { // for the empty list
 
 
   def map[B](transformer: MyTransformer[Nothing, B]): MyList[B] = Empty
-  def flatMap[B](transformer: MyTransformer[Nothing, MyList[B]]): MyList[B] = Empty
   def filter(predicate: MyPredicate[Nothing]): MyList[Nothing] = Empty
+
+  def flatMap[B](transformer: MyTransformer[Nothing, MyList[B]]): MyList[B] = Empty
+  def ++[B>: Nothing](list: MyList[B]): MyList[B] = list // anything concatenated to nothing will return that list
 
 }
 
@@ -67,15 +71,42 @@ class Cons[+A](h:A, t:MyList[A] = Empty) extends MyList[A]{ // for the non empty
     first we need to see if the head satisfies the predicate which means if predicate.test(head) passes if it does we add it to the result
     Otherwise the head does not pass and you return t.filter(predicate)
 
-14:31
+   */
+  /*
+    [1,2,3].filter(n % 2 == 0) ==> when passing this to the predicate the head will fail as 1%2 will not be 0 so the filter is then applied to the tail
+      [2,3].filter(n % 2 == 0) ==> this time predicate is applied to the head of this list 2 and it passes so its added like below:
+      = new Cons(2, [3].filter(n % 2 == 0)) ==> now 3 is checked and returns false
+      = new Cons(2, Empty.filter(n % 2 == 0)) // we now have an empty
+      = new Cons(2, Empty) ==> so just 2 is returned
    */
   def filter(predicate: MyPredicate[A]): MyList[A] = if(predicate.test(h)) new Cons(h,t.filter(predicate)) else t.filter(predicate)
 
   /*
+    [1,2,3].map(n * 2) ==> the function applies a transformation for example double each element
+      = new Cons(2, [2,3].map(n * 2)) ==> which does this -> creates a new Cons with the transformation applied to the head and then to the tail which is shown in the step below
+      = new Cons(2, new Cons(4, [3].map(n * 2))) ==> the compiler creates a new cons with the new "head" being multiplied by two as the head and so on...
+      = new Cons(2, new Cons(4, new Cons(6, Empty.map(n * 2)))) ==> this continues to do the same as above and passes empty if there is no further numbers
+      = new Cons(2, new Cons(4, new Cons(6, Empty))))
 
    */
   def map[B](transformer: MyTransformer[A, B]): MyList[B] = new Cons(transformer.transform(h), t.map(transformer))
 
+  /*
+      1,2] ++ [3,4,5]
+      = new Cons(1, [2] ++ [3,4,5])
+      = new Cons(1, new Cons(2, Empty ++ [3,4,5]))
+      = new Cons(1, new Cons(2, new Cons(3, new Cons(4, new Cons(5)))))
+   */
+  def ++[B>: A](list: MyList[B]): MyList[B] = new Cons(h,t ++ list)
+
+  /*
+      [1,2].flatMap(n => [n, n+1]) => if i have a list 1,2 and then gets a flatmap of n and n+1
+      = [1,2] ++ [2].flatMap(n => [n, n+1]) // then i transformer.transform(h = 1) of list 1,2 and concatenated with tail [2].flatmap with the same transformer
+      = [1,2] ++ [2,3] ++ Empty.flatMap(n => [n, n+1]) // which is again 1,2 ++ 2,3 ++ empty
+      = [1,2] ++ [2,3] ++ Empty
+      = [1,2,2,3]
+  */
+  def flatMap[B](transformer: MyTransformer[A,MyList[B]]): MyList[B] = transformer.transform(h) ++ t.flatMap(transformer)
 
 }
 
@@ -102,12 +133,27 @@ trait MyTransformer[-A, B]{
 object ListTestGenericVersion extends App{
   val listOfIntegers: MyList[Int] = new Cons(1,new Cons(2, new Cons(3)))
   val listOfStrings: MyList[String] =  new Cons("Hello", new Cons("Scala", Empty))
+
+
   
   println(listOfIntegers.toString)
   println(listOfStrings)
 
   println(listOfIntegers.map(new MyTransformer[Int,Int]{
-    override def transform(elem: Int): Int = elem * 2})).toString // the transform method applys a transformation on list elements kind of how you can do it using x => x * 2
+    override def transform(elem: Int): Int = elem * 2})).toString // the transform method apply a transformation on list elements kind of how you can do it using x => x * 2
+
+  val anotherListOfIntegers: MyList[Int] = new Cons(4, new Cons(5, Empty))
+
+  println(listOfIntegers.map(_ * 2).toString)
+
+  println(listOfIntegers.filter(_ % 2 == 0).toString)
+
+  println((listOfIntegers ++ anotherListOfIntegers).toString)
+  println(listOfIntegers.flatMap(new MyTransformer[Int,MyList[Int]]{
+    override def transform(elem: Int): MyList[Int] = new Cons(elem, new Cons(elem+1,Empty))
+  }).toString)
+
+  // this is a complete covariant generic list
 
 }
 
