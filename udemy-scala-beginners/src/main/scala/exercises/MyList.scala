@@ -34,7 +34,7 @@ abstract class MyList[+A] {
 /**
  * empty should be a proper replacement of MyList of Anything
  */
-object Empty extends MyList[Nothing] { // for the empty list
+case object Empty extends MyList[Nothing] { // for the empty list
 
   def head: Nothing = throw new NoSuchElementException // throws return the type Nothing
   def tail: MyList[Nothing] = throw new NoSuchElementException
@@ -58,7 +58,7 @@ object Empty extends MyList[Nothing] { // for the empty list
  * @param t Tail
  * @tparam A Generic Type
  */
-class Cons[+A](h:A, t:MyList[A] = Empty) extends MyList[A]{ // for the non empty list
+case class Cons[+A](h:A, t:MyList[A] = Empty) extends MyList[A]{ // for the non empty list
 
   def head: A = h
   def tail: MyList[A] = t
@@ -130,14 +130,16 @@ trait MyTransformer[-A, B]{
   def transform(elem: A) : B
 }
 
-object ListTestGenericVersion extends App{
+object ListTest extends App{
   val listOfIntegers: MyList[Int] = new Cons(1,new Cons(2, new Cons(3)))
+  val cloneListOfIntegers: MyList[Int] = new Cons(1,new Cons(2, new Cons(3)))
   val listOfStrings: MyList[String] =  new Cons("Hello", new Cons("Scala", Empty))
 
 
   
   println(listOfIntegers.toString)
   println(listOfStrings)
+  println(listOfIntegers == cloneListOfIntegers) // will return true as its a case class otherwise would need to recursively compare each element
 
   println(listOfIntegers.map(new MyTransformer[Int,Int]{
     override def transform(elem: Int): Int = elem * 2})).toString // the transform method apply a transformation on list elements kind of how you can do it using x => x * 2

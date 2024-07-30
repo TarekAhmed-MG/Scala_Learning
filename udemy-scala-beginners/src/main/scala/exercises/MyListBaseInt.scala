@@ -41,7 +41,7 @@ class ConsBaseIntVersion(h:Int, t:MyListBaseInt = EmptyBaseIntVersion) extends M
 
 }
 
-object ListTest extends App {
+object ListTestBase extends App {
 
   val list = new ConsBaseIntVersion(1,new ConsBaseIntVersion(2,new ConsBaseIntVersion(3)))
   println(list.head) // should give 1
