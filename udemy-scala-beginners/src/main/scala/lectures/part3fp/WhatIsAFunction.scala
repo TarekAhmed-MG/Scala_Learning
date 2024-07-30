@@ -38,6 +38,21 @@ object WhatIsAFunction {
         - how to do it
    */
 
+  def concatenator: (String, String) => String = new Function2[String, String, String] {
+    override def apply(a: String, b: String): String = a + b
+  }
 
+  println(concatenator("Hello ", "Scala"))
+
+  // Function1[Int, Function1[Int, Int]]
+  val specialFunction: Function1[Int, Function1[Int, Int]] = new Function1[Int, Function1[Int, Int]] { // takes an int returns a function
+    override def apply(x: Int): Function1[Int, Int] = new Function1[Int, Int] { // takes a function inside the first function
+      override def apply(y: Int): Int = x + y // implementation is add so the main function will return back x added with y
+    }
+  }
+
+  val addFunction = specialFunction(3)
+  println(addFunction(4))
+  println(specialFunction(3)(4)) // curried function - these functions have the property that they can be called with multiple parameter list
 
 }
