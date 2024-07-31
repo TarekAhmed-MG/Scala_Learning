@@ -26,8 +26,21 @@ abstract class MyList[+A] {
   // resulting in a new list that contains only the elements that satisfy the predicate.
   def filter(predicate: A => Boolean): MyList[A]
 
-}
+  // hofs
+  def foreach(f: A => Unit): Unit
+  def sort(compare: (A, A) => Int): MyList[A]
+  def zipWith[B, C](list: MyList[B], zip: (A, B) => C): MyList[C]
+  def fold[B](start: B)(operator: (B, A) => B): B
 
+  def reverse: MyList[A] = {
+    def reverseTailrec(input: MyList[A], result: MyList[A]): MyList[A] =
+      if (input.isEmpty) result
+      else reverseTailrec(input.tail, Cons(input.head, result))
+
+    reverseTailrec(this, Empty)
+  }
+
+}
 
 // Nothing is the proper substitute of Any Type so
 
@@ -49,6 +62,14 @@ case object Empty extends MyList[Nothing] { // for the empty list
   def flatMap[B](transformer: Nothing => MyList[B]): MyList[B] = Empty
   def ++[B>: Nothing](list: MyList[B]): MyList[B] = list // anything concatenated to nothing will return that list
 
+  // hofs
+  def foreach(f: Nothing => Unit): Unit = ()
+  def sort(compare: (Nothing, Nothing) => Int) = Empty
+  def zipWith[B, C](list: MyList[B], zip: (Nothing, B) => C): MyList[C] =
+    if (!list.isEmpty) throw new RuntimeException("Lists do not have the same length")
+    else Empty
+
+  def fold[B](start: B)(operator: (B, Nothing) => B): B = start
 }
 
 
@@ -108,6 +129,36 @@ case class Cons[+A](h:A, t:MyList[A] = Empty) extends MyList[A]{ // for the non 
   */
   def flatMap[B](transformer: A => MyList[B]): MyList[B] = transformer(h) ++ t.flatMap(transformer)
 
+  // hofs
+  def foreach(f: A => Unit): Unit = {
+    f(h)
+    t.foreach(f)
+  }
+
+  def sort(compare: (A, A) => Int): MyList[A] = {
+    def insert(x: A, sortedList: MyList[A]): MyList[A] =
+      if (sortedList.isEmpty) new Cons(x, Empty)
+      else if (compare(x, sortedList.head) <= 0) new Cons(x, sortedList)
+      else new Cons(sortedList.head, insert(x, sortedList.tail))
+
+    val sortedTail = t.sort(compare)
+    insert(h, sortedTail)
+  }
+
+  def zipWith[B, C](list: MyList[B], zip: (A, B) => C): MyList[C] =
+    if (list.isEmpty) throw new RuntimeException("Lists do not have the same length")
+    else new Cons(zip(h, list.head), t.zipWith(list.tail, zip))
+
+  /*
+    [1,2,3].fold(0)(+) =
+    = [2,3].fold(1)(+) =
+    = [3].fold(3)(+) =
+    = [].fold(6)(+)
+    = 6
+   */
+  def fold[B](start: B)(operator: (B, A) => B): B =
+    t.fold(operator(start, h))(operator)
+
 }
 
 /**
@@ -141,8 +192,7 @@ object ListTest extends App{
   println(listOfStrings)
   println(listOfIntegers == cloneListOfIntegers) // will return true as its a case class otherwise would need to recursively compare each element
 
-  println(listOfIntegers.map(new Function[Int,Int]{
-    override def apply(elem: Int): Int = elem * 2})).toString // the transform method apply a transformation on list elements kind of how you can do it using x => x * 2
+  println(listOfIntegers.map(x => x * 2)).toString // the transform method apply a transformation on list elements kind of how you can do it using x => x * 2
 
   val anotherListOfIntegers: MyList[Int] = new Cons(4, new Cons(5, Empty))
 
@@ -151,11 +201,24 @@ object ListTest extends App{
   println(listOfIntegers.filter(_ % 2 == 0).toString)
 
   println((listOfIntegers ++ anotherListOfIntegers).toString)
-  println(listOfIntegers.flatMap(new Function[Int,MyList[Int]]{
-    override def apply(elem: Int): MyList[Int] = new Cons(elem, new Cons(elem+1,Empty))
-  }).toString)
+  println(listOfIntegers.flatMap(x => new Cons(x, new Cons(x + 1,Empty))
+  ).toString)
 
   // this is a complete covariant generic list
+
+  listOfIntegers.foreach(println)
+  println(listOfIntegers.sort((x, y) => y - x))
+  println(anotherListOfIntegers.zipWith[String, String](listOfStrings, _ + "-" + _))
+  println(listOfIntegers.fold(0)(_ + _))
+
+  // for comprehensions
+  val combinations = for {
+    n <- listOfIntegers
+    string <- listOfStrings
+  } yield n + "-" + string
+  println(combinations)
+
+
 
 }
 
