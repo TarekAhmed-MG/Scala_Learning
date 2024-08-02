@@ -1,6 +1,6 @@
 package lectures.part3fp
 
-object WhatIsAFunction {
+object WhatIsAFunction extends App{
 
   // DREAM: use functions as first class elements
   // problem: oop
