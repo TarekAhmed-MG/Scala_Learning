@@ -52,7 +52,12 @@ object Either extends App{
 
   // Either are a more generic way of try catch which you can personalise and use pattern matching / projections
 
+//val str: String = Option("hello") match {
+//  case Some(value) => "hello"
+//  case None => "oh no"
+//}
 
+  val str: String = Some("hello").getOrElse("None")
 
 
 

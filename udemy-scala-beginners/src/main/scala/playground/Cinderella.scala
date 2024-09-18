@@ -1,5 +1,4 @@
 package playground
 
 class Cinderella {
-
 }
