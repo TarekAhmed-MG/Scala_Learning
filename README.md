@@ -4,6 +4,8 @@
 
 [Scala Fundamentals Notes](udemy-scala-beginners) : Notes and code to RockTheJVM Scala Fundamentals Course
 
+[Scala Advanced Notes](udemy-scala-advanced) : Notes and code to RockTheJVM Scala Advanced Course
+
 [Scala101 Notes](Scala101) : Notes and code to Scala101 slides and practicals
 
 [Scala102 Notes](Scala102) : Notes and code to Scala102 slides and practicals
