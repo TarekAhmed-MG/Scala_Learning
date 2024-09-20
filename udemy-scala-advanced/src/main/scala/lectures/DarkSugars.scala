@@ -103,8 +103,7 @@ object DarkSugars extends App{
   }
 
   val aMutableContainer = new Mutable
-  aMutableContainer.member = 42 // rewrittern as aMutableContainer.member_=(42)
+  aMutableContainer.member = 42 // rewritten as aMutableContainer.member_=(42)
   // this only works if you create a getter method to the setter which is the same name as above where the setter has _= on the end
-
 
 }
