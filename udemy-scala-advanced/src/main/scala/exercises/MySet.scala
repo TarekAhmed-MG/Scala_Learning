@@ -35,4 +35,20 @@ class EmptySet[A] extends MySet[A]{
 
 class NonEmptySet[A](head: A, tail: MySet[A]) extends MySet[A]{
 
+  def contains(elem: A): Boolean = elem == head || tail.contains(elem)
+
+  def +(elem: A): MySet[A] = 
+    if (this contains elem) this // return same instance if its there as set has no duplicates
+    else new NonEmptySet[A](elem,this) // otherwise create a new set with the element as head
+
+  def ++(anotherSet: MySet[A]): MySet[A] = tail ++ anotherSet + head // recursively calling ++ method on tail and then adding head
+
+  def map[B](f: A => B): MySet[B]
+
+  def flatMap[B](f: A => B): MySet[B]
+
+  def filter(predicate: A => Boolean): MySet[A]
+
+  def foreach(f: A => Unit): Unit
+
 }
