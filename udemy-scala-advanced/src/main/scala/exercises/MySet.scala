@@ -15,6 +15,14 @@ trait MySet[A] extends (A => Boolean) {
   def flatMap[B](f: A => MySet[B]): MySet[B]
   def filter(predicate: A => Boolean) : MySet[A]
   def foreach(f: A => Unit) : Unit
+
+  def -(elem: A): MySet[A] // removing an element
+  def --(anotherSet: MySet[A]): MySet[A] // difference
+  def &(anotherSet: MySet[A]): MySet[A] // intersection
+
+  // EXERCISE #3 - implement a unary_! = NEGATION of a set
+  // set[1,2,3] =>
+  def unary_! : MySet[A]
 }
 
 class EmptySet[A] extends MySet[A]{
@@ -32,6 +40,14 @@ class EmptySet[A] extends MySet[A]{
   def filter(predicate: A => Boolean): MySet[A] = this
 
   def foreach(f: A => Unit): Unit = () // this is the unit () means unit value
+
+  def -(elem: A): MySet[A] = this
+
+  def --(anotherSet: MySet[A]): MySet[A] = this
+
+  def &(anotherSet: MySet[A]): MySet[A]  = this
+
+  def unary_! : MySet[A] = ???
 
 }
 
@@ -72,6 +88,16 @@ class NonEmptySet[A](head: A, tail: MySet[A]) extends MySet[A]{
     f(head)
     tail foreach f
   }
+
+  def -(elem: A): MySet[A] = if (head == elem) tail else tail - elem + head
+  def --(anotherSet: MySet[A]): MySet[A] = ???
+  // this is the logical way to do below -> def &(anotherSet: MySet[A]): MySet[A] = filter(x => anotherSet.contains(x)
+  // this is equivalent as the apply method we have does .contains automatically 
+  // and filter of x => anotherSet(x) can be reduced to just below. because another set is also a function 
+  def &(anotherSet: MySet[A]): MySet[A] = filter(anotherSet)  // intersecting and filtering is the same because our set is functional 
+
+  def unary_! : MySet[A] = ???
+  
 }
 
 object MySet {
