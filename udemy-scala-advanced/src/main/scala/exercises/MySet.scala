@@ -47,7 +47,7 @@ class EmptySet[A] extends MySet[A]{
 
   def &(anotherSet: MySet[A]): MySet[A]  = this
 
-  def unary_! : MySet[A] = ???
+  def unary_! : MySet[A] = new PropertyBasedSet[A](_ => true)
 
 }
 
@@ -90,14 +90,42 @@ class NonEmptySet[A](head: A, tail: MySet[A]) extends MySet[A]{
   }
 
   def -(elem: A): MySet[A] = if (head == elem) tail else tail - elem + head
-  def --(anotherSet: MySet[A]): MySet[A] = ???
+  def --(anotherSet: MySet[A]): MySet[A] = filter(!anotherSet)
   // this is the logical way to do below -> def &(anotherSet: MySet[A]): MySet[A] = filter(x => anotherSet.contains(x)
-  // this is equivalent as the apply method we have does .contains automatically 
-  // and filter of x => anotherSet(x) can be reduced to just below. because another set is also a function 
-  def &(anotherSet: MySet[A]): MySet[A] = filter(anotherSet)  // intersecting and filtering is the same because our set is functional 
+  // this is equivalent as the apply method we have does .contains automatically
+  // and filter of x => anotherSet(x) can be reduced to just below. because another set is also a function
+  def &(anotherSet: MySet[A]): MySet[A] = filter(anotherSet)  // intersecting and filtering is the same because our set is functional
 
-  def unary_! : MySet[A] = ???
-  
+  def unary_! : MySet[A] = new PropertyBasedSet[A](x => !this.contains(x))
+
+}
+
+class PropertyBasedSet[A](property: A => Boolean) extends MySet[A] {
+  def contains(elem: A): Boolean = property(elem)
+
+  def +(elem: A): MySet[A] = new PropertyBasedSet[A](x => property(x) ||x== elem)
+
+  def ++(anotherSet: MySet[A]): MySet[A]
+
+  def map[B](f: A => B): MySet[B]
+
+  def flatMap[B](f: A => MySet[B]): MySet[B]
+
+  def filter(predicate: A => Boolean): MySet[A] = new PropertyBasedSet[A](x => property(x) && predicate(x))
+
+  def foreach(f: A => Unit): Unit
+
+  def -(elem: A): MySet[A] = filter(x => x != elem)// removing an element
+
+  def --(anotherSet: MySet[A]): MySet[A] = filter(!anotherSet)// difference
+
+  def &(anotherSet: MySet[A]): MySet[A] = filter(anotherSet)// intersection
+
+  // EXERCISE #3 - implement a unary_! = NEGATION of a set
+  // set[1,2,3] =>
+  def unary_! : MySet[A] = new PropertyBasedSet[A](x => !property(x))
+
+  def politelyFail = throw new IllegalArgumentException("Really deep rabbit hole!")
 }
 
 object MySet {
