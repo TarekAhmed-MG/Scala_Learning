@@ -75,5 +75,107 @@ object TreadCommunication extends App {
     consumer.start()
     producer.start()
   }
-  smartProdCons()
+  //smartProdCons()
+
+  /*
+      producer -> [ ? ? ? ] -> consumer
+     */
+
+  def prodConsLargeBuffer(): Unit = {
+    val buffer: mutable.Queue[Int] = new mutable.Queue[Int]
+    val capacity = 3
+
+    val consumer = new Thread(() => {
+      val random = new Random()
+
+      while (true) {
+        buffer.synchronized {
+          if (buffer.isEmpty) {
+            println("[consumer] buffer empty, waiting...")
+            buffer.wait()
+          }
+
+          // there must be at least ONE value in the buffer
+          val x = buffer.dequeue()
+          println("[consumer] consumed " + x)
+
+          // hey producer, there's empty space available, are you lazy?!
+          buffer.notify()
+        }
+
+        Thread.sleep(random.nextInt(250))
+      }
+    })
+
+    val producer = new Thread(() => {
+      val random = new Random()
+      var i = 0
+
+      while (true) {
+        buffer.synchronized {
+          if (buffer.size == capacity) {
+            println("[producer] buffer is full, waiting...")
+            buffer.wait()
+          }
+
+          // there must be at least ONE EMPTY SPACE in the buffer
+          println("[producer] producing " + i)
+          buffer.enqueue(i)
+
+          // hey consumer, new food for you!
+          buffer.notify()
+
+          i += 1
+        }
+
+        Thread.sleep(random.nextInt(500))
+      }
+    })
+
+    consumer.start()
+    producer.start()
+  }
+
+   prodConsLargeBuffer()
+
+  // 2 - deadlock
+  case class Friend(name: String) {
+    def bow(other: Friend) = {
+      this.synchronized {
+        println(s"$this: I am bowing to my friend $other")
+        other.rise(this)
+        println(s"$this: my friend $other has risen")
+      }
+    }
+
+    def rise(other: Friend) = {
+      this.synchronized {
+        println(s"$this: I am rising to my friend $other")
+      }
+    }
+
+    var side = "right"
+    def switchSide(): Unit = {
+      if (side == "right") side = "left"
+      else side = "right"
+    }
+
+    def pass(other: Friend): Unit = {
+      while (this.side == other.side) {
+        println(s"$this: Oh, but please, $other, feel free to pass...")
+        switchSide()
+        Thread.sleep(1000)
+      }
+    }
+  }
+
+  val sam = Friend("Sam")
+  val pierre = Friend("Pierre")
+
+    new Thread(() => sam.bow(pierre)).start() // sam's lock,    |  then pierre's lock
+    new Thread(() => pierre.bow(sam)).start() // pierre's lock  |  then sam's lock
+
+//   3 - livelock
+    new Thread(() => sam.pass(pierre)).start() // live lock works by the fact that the threads are not blocked but they cant come out of the loop
+    new Thread(() => pierre.pass(sam)).start()
 }
