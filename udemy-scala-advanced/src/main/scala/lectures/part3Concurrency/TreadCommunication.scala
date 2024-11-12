@@ -1,5 +1,8 @@
 package lectures.part3Concurrency
 
+import scala.collection.mutable
+import scala.util.Random
+
 object TreadCommunication extends App {
 
   /*
