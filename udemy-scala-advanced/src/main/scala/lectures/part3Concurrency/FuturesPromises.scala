@@ -2,6 +2,7 @@ package lectures.part3Concurrency
 import scala.concurrent.{Await, Future, Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Random, Success}
+import scala.concurrent.duration._ // 2.seconds implementation
 object FuturesPromises extends App {
 
   def calculateMeaningOfLife: Int = {
@@ -87,13 +88,47 @@ object FuturesPromises extends App {
     case e: Throwable => Profile("fb.id.0-dummy","No Such Profile")
   }
 
-  val aFetchedProfileNoMatterWhat = SocialNetwork.fetchBestFriend("unknown-id").recoverWith{
-    case e: Throwable => SocialNetwork.fetchProfile("fb.id.0-dummy") // we use this recoverWith with arguments we know
-      // for sure will exist.
-  }
+  val aFetchedProfileNoMatterWhat = SocialNetwork.fetchProfile("unknown id").recoverWith {
+    case e: Throwable => SocialNetwork.fetchProfile("fb.id.0-dummy")
+  } // we use this recoverWith with arguments we know for sure will exist.
 
   // this one works by taking the result of the first future if successful or else falls back to the second option
   // if that fails then the exception of the first future will be returned.
   val afallbackResult = SocialNetwork.fetchProfile("unknown-id").fallbackTo(SocialNetwork.fetchProfile("fb.id.0-dummy") )
+
+  // futures part 3
+  // online banking app
+
+   case class User(name: String)
+   case class Transaction(sender:String, receiver:String, amount: Double, status:String)
+
+  object BankingApp {
+    val name = "Rock the JVM banking"
+
+    def fetchUser(name: String): Future[User] = Future {
+      // simulate fetching from the DB
+      Thread.sleep(500)
+      User(name)
+    }
+
+    def createTransaction(user: User, merchantName: String, amount: Double): Future[Transaction] = Future {
+      // simulate some processes
+      Thread.sleep(1000)
+      Transaction(user.name, merchantName, amount, "SUCCESS")
+    }
+
+    def purchase(username: String, item: String, merchantName: String, cost: Double): String = {
+      // fetch the user from the DB
+      // create a transaction
+      // WAIT for the transaction to finish
+      val transactionStatusFuture = for {
+        user <- fetchUser(username)
+        transaction <- createTransaction(user, merchantName, cost)
+      } yield transaction.status
+
+      // use await to block futures when needed
+      Await.result(transactionStatusFuture, 2.seconds) // implicit conversions -> pimp my library
+    }
+  }
 
 }
